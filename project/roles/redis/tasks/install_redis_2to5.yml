@@ -1,5 +1,5 @@
 ---
-- name: Extract redis-{{ redis_version }}.tar.gz ---> 开始编译安装
+- name: Install redis-{{ redis_version }} and Extract tar package
   unarchive: src={{ download_path }}/redis-{{redis_version}}.tar.gz dest={{ download_dir }}/temp
 
 - name: make and make install redis
@@ -21,6 +21,7 @@
 
 - name: over load systemctl ......
   shell: systemctl daemon-reload
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7"
 
 - name: Copy Redis config file
   template: src=redis.conf.j2 dest={{ install_dir }}/redis.conf

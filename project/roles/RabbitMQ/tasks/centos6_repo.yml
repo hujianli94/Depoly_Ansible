@@ -11,6 +11,8 @@
     - make
     - zip
     - unzip
+    - perl*
+    - cpan
     - gcc
     - gcc-c++
     - kernel-devel
