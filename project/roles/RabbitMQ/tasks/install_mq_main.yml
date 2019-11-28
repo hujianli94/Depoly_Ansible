@@ -1,0 +1,25 @@
+---
+- name: Install {{ rabbmitmq_version }} First Unzip package
+  unarchive: src={{ download_mq_path }}/rabbitmq-server-{{ rabbmitmq_version }}.tar.gz dest={{ download_mq_dir }}/tmp_mq/
+  when: rabbmitmq_version == "3.5.8" or rabbmitmq_version == "3.8.0"
+
+- name: Move DIR to DIR ----> /usr/local
+  shell: mv {{ download_mq_dir }}/tmp_mq/rabbitmq {{ install_mq_DIR }}
+
+- name: export env to Set to /etc/profile
+  shell: echo "export PATH=$PATH:/usr/local/erlang/bin:/usr/local/rabbitmq/sbin" >> /etc/profile
+
+- name: configue web plugins conf
+  template: src=rabbit.app.j2 dest={{ install_mq_DIR }}/ebin/rabbit.app backup=yes
+
+- name: 启动rabbitmq
+  tags: start_mq
+  shell: source /etc/profile && cd {{ install_mq_SBIN_DIR }} && ./rabbitmq-server -detached
+
+- name: start web plugins
+  tags: start_mq_web_plugins
+  shell: mkdir -p /etc/rabbitmq/ && source /etc/profile && cd {{ install_mq_SBIN_DIR }} && ./rabbitmq-plugins enable rabbitmq_management
+
+
+
+

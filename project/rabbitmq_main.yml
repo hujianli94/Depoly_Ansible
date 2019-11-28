@@ -1,0 +1,13 @@
+---
+- name: Install Rabbitmq_Server
+  hosts: webservers
+  user: root
+  vars:
+    install_6repo: true         #是否安装centos6 的repo开关
+    install_7repo: true         #是否安装centos7 的repo开关
+    install_gcc: true
+
+  vars_files:
+    - group_vars/vars.yml
+  roles:
+    - RabbitMQ

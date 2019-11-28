@@ -1,0 +1,32 @@
+---
+- name: Extract redis-{{ redis_version }}.tar.gz ---> 开始编译安装
+  unarchive: src={{ download_path }}/redis-{{redis_version}}.tar.gz dest={{ download_dir }}/temp
+
+- name: make and make install redis
+  shell: cd {{ download_dir }}/temp/redis-{{ redis_version }} && make PREFIX=/usr/local/redis install;
+
+- name: Export Path
+  template: src=env_profile.sh dest=/etc/profile.d/redis_env.sh mode="u=rwx,g=rx,o=rx"
+
+- name: Source env
+  shell: bash /etc/profile.d/redis_env.sh
+
+- name: Config redis init script For centos6
+  template: src=redis_centos6.j2 dest={{ INIT6_DIR }}/redis mode="u=rwx,g=rx,o=rx"
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "6"
+
+- name: Config redis init script For centos7
+  template: src=redis_centos7.j2 dest={{ INIT7_DIR }}/redis.service mode="u=rwx,g=rx,o=rx"
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7"
+
+- name: over load systemctl ......
+  shell: systemctl daemon-reload
+
+- name: Copy Redis config file
+  template: src=redis.conf.j2 dest={{ install_dir }}/redis.conf
+  notify: restart redis
+
+- name: Start Redis
+  service: name=redis state=started enabled=true
+
+

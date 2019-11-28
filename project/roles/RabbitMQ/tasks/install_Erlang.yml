@@ -1,0 +1,19 @@
+---
+- name: Unzip package erlang
+  unarchive: src={{ download_mq_path }}/otp_src_R16B02.tar.gz dest={{ download_mq_dir }}/tmp_mq/
+
+- name: Copy erlang Install Shell Script
+  template: src=configure.sh dest={{download_mq_dir }}/tmp_mq/ mode="u=rwx,g=rw,o=r"
+
+- name: config erlang ./configure --xxx,--xxx,-xxxx
+  command: /bin/bash /{{download_dir}}/tmp_mq/configure.sh
+
+- name: make && make install erlang
+  shell: cd {{ download_mq_dir }}/tmp_mq/otp_src_R16B02/ && make && make install
+
+- name: export erlang ENV_PATH
+  shell: export PATH=$PATH:/usr/local/erlang/bin
+
+- name: config env to /etc/profile
+  shell: echo "export PATH=$PATH:/usr/local/erlang/bin" >>/etc/profile && source /etc/profile
+

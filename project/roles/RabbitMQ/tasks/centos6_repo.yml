@@ -1,0 +1,20 @@
+---
+- name: COPY 6repo to Server
+  template: src=Centos-6.repo.j2 dest=/etc/yum.repos.d/CentOS6-Aliyun.repo backup=yes
+  tags: yum
+  when: install_6repo
+
+
+- name: install gcc base init
+  yum: name={{ item }} state=present
+  with_items:
+    - make
+    - zip
+    - unzip
+    - gcc
+    - gcc-c++
+    - kernel-devel
+    - m4
+    - ncurses-devel
+    - openssl-devel
+  when: install_gcc

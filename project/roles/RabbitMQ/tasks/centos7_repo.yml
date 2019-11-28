@@ -1,0 +1,21 @@
+---
+- name: COPY 7repo to Server
+  template: src=Centos-7.repo.j2 dest=/etc/yum.repos.d/CentOS7-Aliyun.repo backup=yes
+  tags: yum
+  when: install_7repo
+
+- name: install gcc base init
+  yum: name={{ item }} state=installed
+  with_items:
+    - make
+    - zip
+    - unzip
+    - gcc
+    - gcc-c++
+    - xmlto
+    - kernel-devel
+    - m4
+    - ncurses-devel
+    - openssl-devel
+  when: install_gcc
+

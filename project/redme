@@ -1,0 +1,44 @@
+######## 此ansible-palybook 剧本的目的 ###############
+1.批量安装redis【可选版本：2.8.0、3.2.0、4.0.0、5.0.0】
+设置版本文件：
+group/vars.yml          redis_version: "5.0.0"   默认安装5.0.0版本redis
+
+
+2. 批量安装rabitmq【可选版本：3.5.8、3.8.0】
+设置版本文件：
+group/vars.yml          rabbmitmq_version: "3.5.8"   默认安装3.5.8版本rabbitmq
+
+
+设置全局环境变量：group/vars.yml
+设置批量分发主机列表： hosts
+
+
+#rabbitmq_main.yml   安装rabbitmq
+#redis_main.yml      安装redis
+
+执行命令如下：
+
+
+rabbitmq：
+# 检测语法和执行返回状态
+ansible-playbook -i hosts -C rabbitmq_main.yml
+
+tsak中的示例：
+- name: 启动rabbitmq
+  tags: start_mq
+  shell: source /etc/profile && cd {{ install_mq_SBIN_DIR }} && ./rabbitmq-server -detached
+
+# 使用tag标签单个执行tags 的task任务
+ansible-playbook -i hosts rabbitmq_main.yml --tags start_mq_web_plugins
+
+# 执行剧本
+ansible-playbook -i hosts rabbitmq_main.yml
+
+
+
+
+redis：
+# 检测语法和执行返回状态
+ansible-playbook -i hosts -C redis_main.yml
+# 执行剧本
+ansible-playbook -i hosts redis_main.yml

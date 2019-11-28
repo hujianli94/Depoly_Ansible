@@ -1,0 +1,17 @@
+---
+- include: centos6_repo.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "6"
+
+- include: centos7_repo.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7"
+
+- include: Create_file.yml
+
+- include: install_Erlang.yml
+
+- include: install_mq_main.yml
+  when: rabbmitmq_version == "3.5.8"
+
+- include: install_mq_main.yml
+  when: rabbmitmq_version == "3.8.0"
+

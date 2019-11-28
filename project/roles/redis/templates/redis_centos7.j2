@@ -1,0 +1,12 @@
+[Unit]
+Description=redis service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/redis/bin/redis-server /usr/local/redis/redis.conf --daemonize no
+ExecStop=/usr/local/redis/bin/redis-cli -p 6379 shutdown
+PrivateTmp=true
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

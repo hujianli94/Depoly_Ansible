@@ -1,0 +1,24 @@
+---
+- name: Unzip package rabbmitMQ{{ rabbmitmq_version }}.tar.gz
+  unarchive: src={{ download_mq_path }}/rabbitmq-server-{{ rabbmitmq_version }}.tar.gz dest={{ download_mq_dir }}/tmp_mq/
+
+- name: make && make install rabbitmq server
+  shell: cd {{ download_mq_dir }}/tmp_mq/rabbitmq-server-{{ rabbmitmq_version }} && make && make install TARGET_DIR={{ install_mq_DIR }} SBIN_DIR={{ install_mq_SBIN_DIR }} MAN_DIR={{ install_mq_MAN_DIR }} DOC_INSTALL_DIR={{ install_mq_DOC_DIR }}
+
+- name: Export Pat env to profile
+  template: src=rabbitmq_env.sh dest=/etc/profile.d/rabbitmq_env.sh mode="u=rwx,g=rx,o=rx"
+
+- name: Source env
+  shell: bash /etc/profile.d/rabbitmq_env.sh
+
+- name: Enable web plugin
+  shell: cd {{ install_mq_SBIN_DIR }} && mkdir /etc/rabbitmq/ && ./rabbitmq-plugins enable rabbitmq_management
+  when: Disable_plugin == "False"
+
+- name: Disable web plugin
+  shell: cd {{ install_mq_SBIN_DIR }} && mkdir /etc/rabbitmq/ && ./rabbitmq-plugins disable rabbitmq_management
+  when: Disable_plugin == "True"
+
+- name: 启动rabbitmq
+  shell: cd {{ install_mq_SBIN_DIR }}/sbin && ./rabbitmq-server -detached
+

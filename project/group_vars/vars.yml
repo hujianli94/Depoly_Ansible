@@ -1,0 +1,37 @@
+#Redis的全局变量
+redis_version: "5.0.0"
+redis_port: 6379
+Set_Password: 0
+download_path: 'files'                                          # local download path
+download_dir: '/tmp'                                            # remote download_dir
+install_dir: '/usr/local/redis'
+DB_AOF_dir: '/usr/local/redis/data'
+INIT6_DIR: '/etc/init.d'
+INIT7_DIR: '/usr/lib/systemd/system'
+host_name: webservers
+# create path
+create_path:
+    - "{{ download_dir }}/temp"
+    - "{{ DB_AOF_dir }}"
+    - "{{ install_dir }}"
+
+# Rabbitmq的全局变量
+rabbmitmq_version: "3.5.8"
+rabbmitmq_port: 15672
+download_mq_path: 'files'
+Disable_plugin: "False"
+Erlang_Path: "/usr/local/erlang"
+install_mq_DIR: '/usr/local/rabbitmq'
+install_mq_SBIN_DIR: '/usr/local/rabbitmq/sbin'
+download_mq_dir: '/tmp'
+create_mq_path:
+    - "{{ download_mq_dir }}/tmp_mq"
+config_list:
+    - "--prefix={{Erlang_Path}}"
+    - "--enable-hipe"
+    - "--enable-threads"
+    - " -enable-smp-support"
+    - "--enable-kernel-poll"
+
+
+# Mysql的全局变量
