@@ -1,0 +1,4 @@
+- name: Create temp dir Uasge sava install_package for nginx
+  file:  path={{item}} state=directory
+  with_items:
+    - "{{ create_nginx_path }}"

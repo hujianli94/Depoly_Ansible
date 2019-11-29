@@ -34,4 +34,15 @@ config_list:
     - "--enable-kernel-poll"
 
 
-# Mysql的全局变量
+# nginx的全局变量
+nginx_version: "1.14.1"
+nginx_port: 80
+download_nginx_path: 'files'
+download_nginx_dir: '/tmp'
+install_nginx_DIR: "/usr/local/nginx"
+nginx_user: "www"
+worker_processes: 4
+create_nginx_path:
+    - "{{ download_nginx_dir }}/tmp_nginx"
+
+

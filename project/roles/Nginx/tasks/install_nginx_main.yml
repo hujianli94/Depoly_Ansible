@@ -1,0 +1,39 @@
+---
+- name: add group "www"
+  group:
+    name: www
+    state: present
+
+- name: Add the user "www" to the "www" groups
+  user:
+    name: www
+    shell: /bin/bash
+    groups: www
+    append: yes
+
+
+- name: Install {{ nginx_version }} First Unzip package
+  unarchive: src={{ download_nginx_path }}/nginx-{{ nginx_version }}.tar.gz dest={{ download_nginx_dir }}/tmp_nginx
+  tags: tar_nginx
+  when: nginx_version == "1.12.1" or nginx_version == "1.14.1" or nginx_version == "1.17.1"
+
+- name: Move DIR to DIR ----> /usr/local
+  shell: mv {{ download_nginx_dir }}/tmp_nginx/nginx {{ install_nginx_DIR }}
+  tags: mv_nginx
+
+- name: Export Path
+  template: src=nginx_env.sh dest=/etc/profile.d/nginx_env.sh mode="u=rwx,g=rx,o=rx"
+
+- name: configue file replace to new
+  template: src=nginx_conf.j2 dest={{ install_nginx_DIR }}/conf/nginx.conf backup=yes
+  tags: conf_nginx
+  notify: restart nginx
+
+- name: Start nginx-{{nginx_version}}
+  tags: start_nginx
+  shell: /usr/local/nginx/sbin/nginx
+
+
+
+
+

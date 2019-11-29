@@ -1,0 +1,18 @@
+---
+- include: centos6_repo.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "6"
+
+- include: centos7_repo.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7"
+
+- include: Create_file.yml
+
+- include: install_nginx_main.yml
+  when: nginx_version == "1.12.1"
+
+- include: install_nginx_main.yml
+  when: nginx_version == "1.14.1"
+
+- include: install_nginx_main.yml
+  when: nginx_version == "1.17.1"
+

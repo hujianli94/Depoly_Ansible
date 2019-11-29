@@ -9,9 +9,9 @@
 
 - include: install_Erlang.yml
 
-- include: install_mq_main.yml
+- include: install_nginx_main.yml
   when: rabbmitmq_version == "3.5.8"
 
-- include: install_mq_main.yml
+- include: install_nginx_main.yml
   when: rabbmitmq_version == "3.8.0"
 

@@ -1,0 +1,32 @@
+---
+- name: COPY 7repo to Server
+  template: src=Centos-7.repo.j2 dest=/etc/yum.repos.d/CentOS7-Aliyun.repo backup=yes
+  tags: yum
+  when: install_7repo
+
+- name: COPY 7epel to Server
+  template: src=epel-7.repo.j2 dest=/etc/yum.repos.d/epel-7-Aliyun.repo backup=yes
+  tags: yum
+  when: install_6repo
+
+- name: install gcc base init
+  yum:
+    name:
+      - make
+      - zip
+      - unzip
+      - gcc
+      - gcc-c++
+      - pcre
+      - pcre-devel
+      - kernel-devel
+      - m4
+      - ncurses-devel
+      - openssl-devel
+    state: present
+  when: install_gcc
+
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
