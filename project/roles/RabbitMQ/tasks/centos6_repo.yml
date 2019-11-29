@@ -10,17 +10,18 @@
   when: install_6repo
 
 - name: install gcc base init
-  yum: name={{ item }} state=present
-  with_items:
-    - make
-    - zip
-    - unzip
-    - perl*
-    - cpan
-    - gcc
-    - gcc-c++
-    - kernel-devel
-    - m4
-    - ncurses-devel
-    - openssl-devel
+  yum:
+    name:
+      - make
+      - zip
+      - unzip
+      - perl*
+      - cpan
+      - gcc
+      - gcc-c++
+      - kernel-devel
+      - m4
+      - ncurses-devel
+      - openssl-devel
+    state: present
   when: install_gcc

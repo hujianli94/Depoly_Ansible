@@ -11,10 +11,11 @@
 
 
 - name: install gcc base init
-  yum: name={{ item }} state=present
-  with_items:
-    - gcc
-    - tree
-    - dos2unix
-    - net-tools
+  yum:
+    name:
+      - gcc
+      - tree
+      - dos2unix
+      - net-tools
+    state: present
   when: install_gcc
