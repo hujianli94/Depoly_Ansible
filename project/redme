@@ -42,3 +42,7 @@ redis：
 ansible-playbook -i hosts -C redis_main.yml
 # 执行剧本
 ansible-playbook -i hosts redis_main.yml
+
+
+
+-- nginx 采用的是编译好的安装包直接解压安装，在centos7上可以使用，因为安装包是在7上编译好的。
