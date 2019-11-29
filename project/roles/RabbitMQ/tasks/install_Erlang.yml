@@ -11,9 +11,9 @@
 - name: make && make install erlang
   shell: cd {{ download_mq_dir }}/tmp_mq/otp_src_R16B02/ && make && make install
 
-#- name: export erlang ENV_PATH
-#  shell: export PATH=$PATH:/usr/local/erlang/bin
-#
-#- name: config env to /etc/profile
-#  shell: echo "export PATH=$PATH:/usr/local/erlang/bin" >>/etc/profile && source /etc/profile
+- name: export erlang ENV_PATH
+  shell: export PATH=$PATH:/usr/local/erlang/bin
+
+- name: config env to /etc/profile
+  shell: echo "export PATH=$PATH:/usr/local/erlang/bin" >>/etc/profile && source /etc/profile
 
