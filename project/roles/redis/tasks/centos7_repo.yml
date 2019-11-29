@@ -4,6 +4,11 @@
   tags: yum
   when: install_7repo
 
+- name: COPY 7epel to Server
+  template: src=epel-7.repo.j2 dest=/etc/yum.repos.d/epel-7-Aliyun.repo backup=yes
+  tags: yum
+  when: install_6repo
+
 - name: install gcc base init
   yum: name={{ item }} state=present
   with_items:

@@ -16,9 +16,12 @@
   tags: start_mq
   shell: source /etc/profile && cd {{ install_mq_SBIN_DIR }} && ./rabbitmq-server -detached
 
+- name: Create /etc/rabbitmq directory if it does not exist
+  file: path=/etc/rabbitmq state=directory mode='0755'
+
 - name: start web plugins
   tags: start_mq_web_plugins
-  shell: mkdir -p /etc/rabbitmq/ && source /etc/profile && cd {{ install_mq_SBIN_DIR }} && ./rabbitmq-plugins enable rabbitmq_management
+  shell: source /etc/profile && cd {{ install_mq_SBIN_DIR }} && ./rabbitmq-plugins enable rabbitmq_management
 
 
 
