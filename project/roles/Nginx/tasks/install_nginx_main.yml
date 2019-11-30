@@ -1,14 +1,14 @@
 ---
 - name: add group "www"
   group:
-    name: www
+    name: "{{nginx_user}}"
     state: present
 
 - name: Add the user "www" to the "www" groups
   user:
-    name: www
+    name: "{{nginx_user}}"
     shell: /bin/bash
-    groups: www
+    groups: "{{nginx_user}}"
     append: yes
 
 
@@ -17,9 +17,19 @@
   tags: tar_nginx
   when: nginx_version == "1.12.1" or nginx_version == "1.14.1" or nginx_version == "1.17.1"
 
-- name: Move DIR to DIR ----> /usr/local
-  shell: mv {{ download_nginx_dir }}/tmp_nginx/nginx {{ install_nginx_DIR }}
-  tags: mv_nginx
+- name: Copy configure.sh Install Shell Script
+  template: src=configure.sh dest={{ download_nginx_dir }}/tmp_nginx mode="u=rwx,g=rw,o=r"
+
+- name:  ./configure to /usr/local/nginx 【ssl_module、stub_status_module】
+  command: bash {{ download_nginx_dir }}/tmp_nginx/configure.sh
+
+- name: make && make install
+  shell: cd {{download_nginx_dir}}/tmp_nginx/nginx-{{nginx_version}} && make && make install
+
+- name: Remove a {{download_nginx_dir}}/tmp_nginx/nginx if it exist
+  file:
+    path: /tmp/tmp_nginx/nginx
+    state: absent
 
 - name: Export Path
   template: src=nginx_env.sh dest=/etc/profile.d/nginx_env.sh mode="u=rwx,g=rx,o=rx"
@@ -29,11 +39,20 @@
   tags: conf_nginx
   notify: restart nginx
 
+- name: Check nginx Is it normal
+  shell: /usr/local/nginx/sbin/nginx -t
+
 - name: Start nginx-{{nginx_version}}
   tags: start_nginx
   shell: /usr/local/nginx/sbin/nginx
 
+- name: Show nginx Version
+  tags: show_nginx
+  shell: /usr/local/nginx/sbin/nginx -v
+  register: result
 
+- debug:
+    msg: "nginx Version is: {{ result }}"
 
 
 

@@ -24,8 +24,7 @@
   when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7"
 
 - name: Copy Redis config file
-  template: src=redis.conf.j2 dest={{ install_dir }}/redis.conf
-  notify: restart redis
+  template: src=redis.conf.j2 dest={{ install_dir }}/redis.conf backup=yes
 
 - name: Start Redis
   service: name=redis state=started enabled=true

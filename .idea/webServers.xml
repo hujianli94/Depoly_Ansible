@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="ed9c4575-6fb1-44c8-b50f-e6fdda7a4a3f" name="172.16.72.17" url="http://172.16.72.17">
+      <webServer id="d0a3bc11-14c8-4c65-8a68-fca607fe5298" name="172.16.72.17" url="http://172.16.72.17">
         <fileTransfer host="172.16.72.17" port="22" privateKey="C:\Users\18793\Desktop\K8S学习\CS密钥对\hu_k8s_key.pem" rootFolder="/home/centos" accessType="SFTP" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />

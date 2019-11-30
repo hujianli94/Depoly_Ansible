@@ -26,12 +26,6 @@ install_mq_SBIN_DIR: '/usr/local/rabbitmq/sbin'
 download_mq_dir: '/tmp'
 create_mq_path:
     - "{{ download_mq_dir }}/tmp_mq"
-config_list:
-    - "--prefix={{Erlang_Path}}"
-    - "--enable-hipe"
-    - "--enable-threads"
-    - " -enable-smp-support"
-    - "--enable-kernel-poll"
 
 
 # nginx的全局变量
@@ -44,5 +38,6 @@ nginx_user: "www"
 worker_processes: 4
 create_nginx_path:
     - "{{ download_nginx_dir }}/tmp_nginx"
+
 
 
